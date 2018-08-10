@@ -16,6 +16,8 @@ Get the latest RACV fuel prices delivered as push notifications to your phone. W
     If you haven't activated Webhooks before, be sure to go to the [Webhook settings](https://ifttt.com/services/maker_webhooks/settings) and make a note of your Webhook key as you will need it for Step 8:
 
     <img src="https://i.imgur.com/mvbYid2.png" width="50%" alt="Webhook key">
+    
+    Note if you find that your webhooks do not automatically fire, try updating the webhook key by clicking the _Edit Connection_ button.
 
 3. Choose an event name, such as `racv_fuel_price_updated`. _This needs to be the same value you use in Step 8._
 4. Set _that_ to [Notifications](https://ifttt.com/create/if-receive-a-web-request-then-if_notifications?sid=14), and choose the rich notification:
@@ -50,7 +52,7 @@ Get the latest RACV fuel prices delivered as push notifications to your phone. W
 9. Test to see if it works. Download the IFTTT to your smartphone, sign in and then run:
 
     ```
-    $ heroku run ruby fuelprices.rb
+    $ heroku run ruby fuelprice.rb
     ```
 
     You can then force-check the app to see if it recieved the notification by tapping the _Check Now_ under the My Applet's settings:
