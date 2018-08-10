@@ -45,6 +45,7 @@ Get the latest RACV fuel prices delivered as push notifications to your phone. W
 8. Set the following Heroku environment variables from the values you noted in Step 2 and 3:
 
     ```
+    $ heroku config:add TZ="Australia/Melbourne"
     $ heroku config:set IFTTT_TRIGGER_NAME=racv_fuel_price_updated
     $ heroku config:set IFTTT_TRIGGER_NAME=[YOUR WEBHOOK KEY]
     ```
