@@ -50,7 +50,7 @@ Get the latest RACV fuel prices delivered as push notifications to your phone. W
 9. Test to see if it works. Download the IFTTT to your smartphone, sign in and then run:
 
     ```
-    $ heroku run fuelprices.rb
+    $ heroku run ruby fuelprices.rb
     ```
 
     You can then force-check the app to see if it recieved the notification by tapping the _Check Now_ under the My Applet's settings:
