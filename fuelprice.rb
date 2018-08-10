@@ -4,6 +4,7 @@ require 'json'
 
 RACV_FUEL_PRICES_URL = 'https://www.racv.com.au/bin/racv/fuelprice.2.json'.freeze
 IFTTT_TRIGGER_NAME = 'racv_fuel_price_updated'.freeze
+IFTTT_TRIGGER_KEY = 'bezd29CXl9dcUK1R-dWs1i'.freeze
 
 racv_uri = URI.parse(RACV_FUEL_PRICES_URL)
 response = JSON.parse(Net::HTTP.get(racv_uri))
@@ -24,7 +25,7 @@ trend = [
   'higher'
 ][(todays_avg_price > yesterdays_avg_price) ? 1 : 0]
 
-ifttt_uri = URI.parse("http://maker.ifttt.com/trigger/#{IFTTT_TRIGGER_NAME}/with/key/bezd29CXl9dcUK1R-dWs1i")
+ifttt_uri = URI.parse("http://maker.ifttt.com/trigger/#{IFTTT_TRIGGER_NAME}/with/key/#{IFTTT_TRIGGER_KEY}")
 request = Net::HTTP::Post.new(ifttt_uri)
 request.content_type = "application/json"
 request.body = JSON.dump({
