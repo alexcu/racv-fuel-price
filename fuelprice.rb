@@ -1,13 +1,11 @@
-require 'net/http'
-require 'uri'
+require 'httparty'
 require 'json'
 
 RACV_FUEL_PRICES_URL = 'https://www.racv.com.au/bin/racv/fuelprice.2.json'.freeze
 IFTTT_TRIGGER_NAME = ENV['IFTTT_TRIGGER_NAME'].freeze
 IFTTT_TRIGGER_KEY = ENV['IFTTT_TRIGGER_KEY'].freeze
 
-racv_uri = URI.parse(RACV_FUEL_PRICES_URL)
-response = JSON.parse(Net::HTTP.get(racv_uri))
+response = HTTParty.get(RACV_FUEL_PRICES_URL, headers: {})
 
 todays_avg_price = response['TodaysPrice']['CustomRegionsAvgHighLow'].last['AvgPrice'].to_f
 yesterdays_avg_price = response['YesterdaysPrice']['CustomRegionsAvgHighLow'].last['AvgPrice'].to_f
@@ -25,21 +23,16 @@ trend = [
   'higher'
 ][(todays_avg_price > yesterdays_avg_price) ? 1 : 0]
 
-ifttt_uri = URI.parse("http://maker.ifttt.com/trigger/#{IFTTT_TRIGGER_NAME}/with/key/#{IFTTT_TRIGGER_KEY}")
-request = Net::HTTP::Post.new(ifttt_uri)
-request.content_type = "application/json"
-request.body = JSON.dump({
-  value1: prices_are.to_s,
-  value2: dont_pay_above.to_s,
-  value3: trend.to_s
-})
-
-req_options = {
-  use_ssl: ifttt_uri.scheme == "https",
-}
-
-response = Net::HTTP.start(ifttt_uri.hostname, ifttt_uri.port, req_options) do |http|
-  http.request(request)
-end
+response = HTTParty.post(
+  "http://maker.ifttt.com/trigger/#{IFTTT_TRIGGER_NAME}/with/key/#{IFTTT_TRIGGER_KEY}",
+  body: {
+    value1: prices_are.to_s,
+    value2: dont_pay_above.to_s,
+    value3: trend.to_s
+  }.to_json,
+  headers: {
+    'Content-Type': "application/json"
+  }
+)
 
 puts response.code, response.body
